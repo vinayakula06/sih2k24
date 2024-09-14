@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_4e948d1e96eeab1b5a496c0ba07ee9a8 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_4e948d1e96eeab1b5a496c0ba07ee9a8" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_4e948d1e96eeab1b5a496c0ba07ee9a8 = L.map(
+                "map_4e948d1e96eeab1b5a496c0ba07ee9a8",
+                {
+                    center: [17.7280236, 83.3263642],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 12,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_319cb593931fc0a4ecf8ee51fdcb0aab = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_319cb593931fc0a4ecf8ee51fdcb0aab.addTo(map_4e948d1e96eeab1b5a496c0ba07ee9a8);
+        
+    
+            var marker_b80984d247ecff61448500bce9043209 = L.marker(
+                [17.7280236, 83.3263642],
+                {}
+            ).addTo(map_4e948d1e96eeab1b5a496c0ba07ee9a8);
+        
+    
+            var icon_07a4bf87792112274fb65686e580297b = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_b80984d247ecff61448500bce9043209.setIcon(icon_07a4bf87792112274fb65686e580297b);
+        
+    
+        var popup_7207dfcf581c3044c61a85b0793d2a4c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_6e6b8a5378cabc590bf93198b8a39075 = $(`<div id="html_6e6b8a5378cabc590bf93198b8a39075" style="width: 100.0%; height: 100.0%;">Your Location</div>`)[0];
+                popup_7207dfcf581c3044c61a85b0793d2a4c.setContent(html_6e6b8a5378cabc590bf93198b8a39075);
+            
+        
+
+        marker_b80984d247ecff61448500bce9043209.bindPopup(popup_7207dfcf581c3044c61a85b0793d2a4c)
+        ;
+
+        
+    
+    
+            var marker_d19476c7d98809a2beccd400f78e2a36 = L.marker(
+                [17.728816, 83.320085],
+                {}
+            ).addTo(map_4e948d1e96eeab1b5a496c0ba07ee9a8);
+        
+    
+            var icon_d43cb39b02d34b204214e4fd3348f233 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_d19476c7d98809a2beccd400f78e2a36.setIcon(icon_d43cb39b02d34b204214e4fd3348f233);
+        
+    
+        var popup_11b786478e625551d5dcc61a3d97d7de = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_d17d8aa6b8d0d58cccdd9e5902ec5c9a = $(`<div id="html_d17d8aa6b8d0d58cccdd9e5902ec5c9a" style="width: 100.0%; height: 100.0%;">Nearest BO: A U Engg College B.O<br>Division: Visakhapatnam Division<br>Circle: Visakhapatnam Region<br>District: VISAKHAPATANAM<br>State: ANDHRA PRADESH<br>Pincode: BO<br>Distance: 0.67 km</div>`)[0];
+                popup_11b786478e625551d5dcc61a3d97d7de.setContent(html_d17d8aa6b8d0d58cccdd9e5902ec5c9a);
+            
+        
+
+        marker_d19476c7d98809a2beccd400f78e2a36.bindPopup(popup_11b786478e625551d5dcc61a3d97d7de)
+        ;
+
+        
+    
+    
+            var marker_388bd031239de5e9de1940bb747faaf8 = L.marker(
+                [17.7248889, 83.3240833],
+                {}
+            ).addTo(map_4e948d1e96eeab1b5a496c0ba07ee9a8);
+        
+    
+            var icon_f7cd5f31190fe02cf52db9c5e6a441c1 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_388bd031239de5e9de1940bb747faaf8.setIcon(icon_f7cd5f31190fe02cf52db9c5e6a441c1);
+        
+    
+        var popup_9f2549bc3ac5de67bd10bcda2ebbe97f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_5032ead733249d09d1c0a704377793bd = $(`<div id="html_5032ead733249d09d1c0a704377793bd" style="width: 100.0%; height: 100.0%;">Nearest PO: Andhra University S.O<br>Division: Visakhapatnam Division<br>Circle: Visakhapatnam Region<br>District: VISAKHAPATANAM<br>State: ANDHRA PRADESH<br>Pincode: PO<br>Distance: 0.42 km</div>`)[0];
+                popup_9f2549bc3ac5de67bd10bcda2ebbe97f.setContent(html_5032ead733249d09d1c0a704377793bd);
+            
+        
+
+        marker_388bd031239de5e9de1940bb747faaf8.bindPopup(popup_9f2549bc3ac5de67bd10bcda2ebbe97f)
+        ;
+
+        
+    
+</script>
+</html>
