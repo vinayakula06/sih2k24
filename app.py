@@ -128,77 +128,72 @@ def find_nearest_bo(lat, lon):
 
     return nearest_bo, min_distance
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    parsed_address = None
+    user_map = None
+    arranged_address = None
+    if request.method == 'POST':
+        full_address = request.form['address']
+        address_parts = parse_address(full_address)
+        
+        if not address_parts:
+            return jsonify({'error': 'Address not found or invalid.'}), 400
 
-@app.route('/get_map', methods=['POST'])
-def get_map():
-    full_address = request.form['address']
-    address_parts = parse_address(full_address)
-    
-    if not address_parts:
-        return jsonify({'error': 'Address not found or invalid.'}), 400
+        formatted_address = f"{address_parts.get('Flat No', '')}, {address_parts.get('Street', '')}, {address_parts.get('City', '')}, {address_parts.get('State', '')}, {address_parts.get('Pincode', '')}"
+        user_lat, user_lon = geocode_address_google(formatted_address)
 
-    formatted_address = f"{address_parts.get('Flat No', '')}, {address_parts.get('Street', '')}, {address_parts.get('City', '')}, {address_parts.get('State', '')}, {address_parts.get('Pincode', '')}"
-    user_lat, user_lon = geocode_address_google(formatted_address)
+        if user_lat is not None and user_lon is not None:
+            map_center = [user_lat, user_lon]
+            mymap = folium.Map(location=map_center, zoom_start=12)
+            folium.Marker(
+                location=[user_lat, user_lon],
+                popup=f"Your Location",
+                icon=folium.Icon(color='blue', icon='info-sign')
+            ).add_to(mymap)
+            
+            nearest_bo, distance_to_bo = find_nearest_bo(user_lat, user_lon)
+            if nearest_bo is not None:
+                nearest_bo_details = (f"Nearest BO: {nearest_bo[3]}<br>"
+                                      f"Division: {nearest_bo[2]}<br>"
+                                      f"Circle: {nearest_bo[1]}<br>"
+                                      f"District: {nearest_bo[7]}<br>"
+                                      f"State: {nearest_bo[8]}<br>"
+                                      f"Pincode: {nearest_bo[5]}<br>"
+                                      f"Distance: {distance_to_bo:.2f} km")
+                try:
+                    bo_lat = float(nearest_bo[9])
+                    bo_lon = float(nearest_bo[10])
+                    folium.Marker(
+                        location=[bo_lat, bo_lon],
+                        popup=nearest_bo_details,
+                        icon=folium.Icon(color='red', icon='info-sign')
+                    ).add_to(mymap)
+                except ValueError:
+                    print(f"Skipping BO marker due to invalid coordinates: {nearest_bo}")
 
-    if user_lat is not None and user_lon is not None:
-        map_center = [user_lat, user_lon]
-        mymap = folium.Map(location=map_center, zoom_start=12)
-        folium.Marker(
-            location=[user_lat, user_lon],
-            popup=f"Your Location",
-            icon=folium.Icon(color='blue', icon='info-sign')
-        ).add_to(mymap)
-        nearest_bo, distance_to_bo = find_nearest_bo(user_lat, user_lon)
-
-        if nearest_bo is not None:
-            nearest_bo_details = (f"Nearest BO: {nearest_bo[3]}<br>"  # BO Name at index 3
-                                  f"Division: {nearest_bo[2]}<br>"   # DivisionName at index 2
-                                  f"Circle: {nearest_bo[1]}<br>"     # CircleName at index 1
-                                  f"District: {nearest_bo[7]}<br>"   # District at index 7
-                                  f"State: {nearest_bo[8]}<br>"      # StateName at index 8
-                                  f"Pincode: {nearest_bo[5]}<br>"    # Pincode at index 5
-                                  f"Distance: {distance_to_bo:.2f} km")
-            try:
-                bo_lat = float(nearest_bo[9])
-                bo_lon = float(nearest_bo[10])
-
-                folium.Marker(
-                    location=[bo_lat, bo_lon],
-                    popup=nearest_bo_details,
-                    icon=folium.Icon(color='red', icon='info-sign')
-                ).add_to(mymap)
-            except ValueError:
-                print(f"Skipping BO marker due to invalid coordinates: {nearest_bo}")
-        nearest_po, distance_to_po = find_nearest_po(user_lat, user_lon)
-
-        if nearest_po is not None:
-            nearest_po_details = (f"Nearest PO: {nearest_po[3]}<br>"  # PO Name at index 3
-                                  f"Division: {nearest_po[2]}<br>"   # DivisionName at index 2
-                                  f"Circle: {nearest_po[1]}<br>"     # CircleName at index 1
-                                  f"District: {nearest_po[7]}<br>"   # District at index 7
-                                  f"State: {nearest_po[8]}<br>"      # StateName at index 8
-                                  f"Pincode: {nearest_po[5]}<br>"    # Pincode at index 5
-                                  f"Distance: {distance_to_po:.2f} km")
-
-            try:
-                po_lat = float(nearest_po[9])
-                po_lon = float(nearest_po[10])
-
-                folium.Marker(
-                    location=[po_lat, po_lon],
-                    popup=nearest_po_details,
-                    icon=folium.Icon(color='green', icon='info-sign')
-                ).add_to(mymap)
-            except ValueError:
-                print(f"Skipping PO marker due to invalid coordinates: {nearest_po}")
-
-        mymap.save('templates/map.html')
-        return render_template('map.html')
-    else:
-        return jsonify({'error': 'Address not found or invalid coordinates.'}), 400
+            nearest_po, distance_to_po = find_nearest_po(user_lat, user_lon)
+            if nearest_po is not None:
+                nearest_po_details = (f"Nearest PO: {nearest_po[3]}<br>"
+                                      f"Division: {nearest_po[2]}<br>"
+                                      f"Circle: {nearest_po[1]}<br>"
+                                      f"District: {nearest_po[7]}<br>"
+                                      f"State: {nearest_po[8]}<br>"
+                                      f"Pincode: {nearest_po[5]}<br>"
+                                      f"Distance: {distance_to_po:.2f} km")
+                try:
+                    po_lat = float(nearest_po[9])
+                    po_lon = float(nearest_po[10])
+                    folium.Marker(
+                        location=[po_lat, po_lon],
+                        popup=nearest_po_details,
+                        icon=folium.Icon(color='green', icon='info-sign')
+                    ).add_to(mymap)
+                except ValueError:
+                    print(f"Skipping PO marker due to invalid coordinates: {nearest_po}")
+            user_map = 'map.html'
+            mymap.save(f'static/{user_map}')
+    return render_template('index.html', parsed_address=parsed_address, user_map=user_map, arranged_address=arranged_address)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(debug=True)
